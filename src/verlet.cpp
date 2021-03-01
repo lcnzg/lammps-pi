@@ -33,6 +33,11 @@
 
 #include <cstring>
 
+extern "C" {
+  void begin_timestep_();
+  void end_timestep_();
+}
+
 using namespace LAMMPS_NS;
 
 /* ---------------------------------------------------------------------- */
@@ -239,6 +244,7 @@ void Verlet::run(int n)
   else sortflag = 0;
 
   for (int i = 0; i < n; i++) {
+    begin_timestep_();
     if (timer->check_timeout(i)) {
       update->nsteps = i;
       break;
@@ -351,6 +357,7 @@ void Verlet::run(int n)
       output->write(ntimestep);
       timer->stamp(Timer::OUTPUT);
     }
+    end_timestep_();
   }
 }
 

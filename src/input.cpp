@@ -58,11 +58,6 @@ using namespace LAMMPS_NS;
 #define DELTALINE 256
 #define DELTA 4
 
-extern "C" {
-  void begin_timestep_();
-  void end_timestep_();
-}
-
 /* ---------------------------------------------------------------------- */
 
 /** \class LAMMPS_NS::Input
@@ -189,7 +184,6 @@ void Input::file()
   int m,n;
 
   while (1) {
-    begin_timestep_();
     // read a line from input script
     // n = length of line including str terminator, 0 if end of file
     // if line ends in continuation char '&', concatenate next line
@@ -275,7 +269,6 @@ void Input::file()
 
     if (execute_command() && line)
       error->all(FLERR,fmt::format("Unknown command: {}",line));
-    end_timestep_();
   }
 }
 
