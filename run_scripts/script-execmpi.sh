@@ -2,6 +2,8 @@ DATASET=exp-results
 rm -rf $DATASET
 mkdir $DATASET
 
+lammps_app=./lmp -var x 1000 -var y 1000 -var z 4000 -in in.rhodo
+
 cd build
 sudo perf stat -o ../$DATASET/perf-app-lammps.out ./lmp -var t 300 -echo screen -in lj/in.lj
 /usr/bin/time -o ../$DATASET/time-app-lammps.out -v ./lmp -var t 300 -echo screen -in lj/in.lj
