@@ -1,3 +1,4 @@
+export OMP_NUM_THREADS=2
 cd ..
 mkdir build
 cd build
