@@ -1,19 +1,11 @@
-DATASET=exp-results
-rm -rf $DATASET
+#!/bin/bash
+NAME=$(date +"%m-%d-%y-%T")
+HOSTFILE=$PWD/hostfile
+DATASET=$PWD/$1
 mkdir $DATASET
-
-lammps_app="./lmp -var x 1000 -var y 1000 -var z 4000 -in in.rhodo"
-
-cd build
-sudo perf stat -o ../$DATASET/perf-app-lammps.out ./lmp -var t 300 -echo screen -in lj/in.lj
-/usr/bin/time -o ../$DATASET/time-app-lammps.out -v ./lmp -var t 300 -echo screen -in lj/in.lj
-ltrace -o ../$DATASET/mpi-app-lammps.out ./lmp -var t 300 -echo screen -in lj/in.lj
-
-cd ../$DATASET
-cat mpi-app-lammps.out | grep "MPI" > mpi2-app-lammps.out
-rm mpi-app-lammps.out
-mv mpi2-app-lammps.out mpi-app-lammps.out
-
-in.rhodo
-in.lj
-#mpirun -n 2 ./lmp -var t 300 -echo screen -in lj/in.lj
+cd ..
+lammps_a_app="./../lmp -in in.lj"
+lammps_b_app="./../lmp -in in.rhodo"
+cd build/bench
+mpirun -n $2 --hostfile $HOSTFILE $lammps_a_app > $DATASET/$NAME-lammps-A.out 2> $DATASET/$NAME-lammps-A.err
+mpirun -n $2 --hostfile $HOSTFILE $lammps_b_app > $DATASET/$NAME-lammps-B.out 2> $DATASET/$NAME-lammps-B.err
