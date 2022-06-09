@@ -32,6 +32,7 @@
 #include "update.h"
 
 #include <cstring>
+#include <cstdlib>
 
 extern "C" {
   void begin_timestep_();
@@ -243,8 +244,20 @@ void Verlet::run(int n)
   if (atom->sortfreq > 0) sortflag = 1;
   else sortflag = 0;
 
+  const char* max_pi = std::getenv("MAX_PARAMOUT_INTERATIONS");
+
   for (int i = 0; i < n; i++) {
-    begin_timestep_();
+
+    if (max_pi != nullptr) {
+      if (i >= atoi(max_pi)) {
+        break;
+      }
+    }
+
+    if (max_pi != nullptr) {
+      begin_timestep_();
+    }
+
     if (timer->check_timeout(i)) {
       update->nsteps = i;
       break;
@@ -357,7 +370,10 @@ void Verlet::run(int n)
       output->write(ntimestep);
       timer->stamp(Timer::OUTPUT);
     }
-    end_timestep_();
+
+    if (max_pi != nullptr) {
+      end_timestep_();
+    }
   }
 }
 
