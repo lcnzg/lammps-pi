@@ -75,6 +75,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF CACHE BOOL "Use compiler extensions")
 
 ########################################################################
+# Build Paramount Iterations Utils                                     #
+########################################################################
+add_custom_target(PIUtils COMMAND make all
+                   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/../utils
+
+########################################################################
 # User input options                                                   #
 ########################################################################
 set(LAMMPS_MACHINE "" CACHE STRING "Suffix to append to lmp binary (WON'T enable any features automatically")
@@ -97,7 +103,7 @@ file(GLOB ALL_SOURCES ${LAMMPS_SOURCE_DIR}/[^.]*.cpp)
 file(GLOB MAIN_SOURCES ${LAMMPS_SOURCE_DIR}/main.cpp)
 list(REMOVE_ITEM ALL_SOURCES ${MAIN_SOURCES})
 add_library(lammps ${ALL_SOURCES})
-add_executable(lmp ${MAIN_SOURCES} ../../utils/obj/ifstats.o ../../utils/obj/kernel_stats.o)
+add_executable(lmp ${MAIN_SOURCES} ../utils/obj/ifstats.o ../utils/obj/kernel_stats.o)
 target_link_libraries(lmp PRIVATE lammps)
 set_target_properties(lmp PROPERTIES OUTPUT_NAME ${LAMMPS_BINARY})
 install(TARGETS lmp EXPORT LAMMPS_Targets DESTINATION ${CMAKE_INSTALL_BINDIR})
