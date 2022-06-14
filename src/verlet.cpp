@@ -244,7 +244,7 @@ void Verlet::run(int n)
   if (atom->sortfreq > 0) sortflag = 1;
   else sortflag = 0;
 
-  const char* max_pi = std::getenv("MAX_PARAMOUT_INTERATIONS");
+  const char* max_pi = std::getenv("MAX_PARAMOUNT_ITERATIONS");
 
   for (int i = 0; i < n; i++) {
 
