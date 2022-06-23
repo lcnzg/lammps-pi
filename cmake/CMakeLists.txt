@@ -75,12 +75,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF CACHE BOOL "Use compiler extensions")
 
 ########################################################################
-# Build Paramount Iterations Utils                                     #
-########################################################################
-add_custom_target(PIUtils COMMAND make all
-                   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/../utils
-
-########################################################################
 # User input options                                                   #
 ########################################################################
 set(LAMMPS_MACHINE "" CACHE STRING "Suffix to append to lmp binary (WON'T enable any features automatically")
