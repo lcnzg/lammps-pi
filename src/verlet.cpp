@@ -246,13 +246,11 @@ void Verlet::run(int n)
 
   const char* max_pi = std::getenv("MAX_PARAMOUNT_ITERATIONS");
 
-  for (int i = 0; i < n; i++) {
+  if (max_pi != nullptr) {
+    set_early_stop_(&atoi(max_pi));
+  }
 
-    if (max_pi != nullptr) {
-      if (i >= atoi(max_pi)) {
-        break;
-      }
-    }
+  for (int i = 0; i < n; i++) {
 
     if (max_pi != nullptr) {
       begin_timestep_();
