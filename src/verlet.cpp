@@ -246,15 +246,20 @@ void Verlet::run(int n)
   else sortflag = 0;
 
   const char* max_pi = std::getenv("MAX_PARAMOUNT_ITERATIONS");
-  int max_pi_int = atoi(max_pi);
 
-  if (max_pi != nullptr) {
+  int max_pi_int = -1;
+
+  if (max_pi != NULL) {
+    max_pi_int = atoi(max_pi);
+  }
+
+  if (max_pi_int > 0) {
     set_early_stop_(&max_pi_int);
   }
 
   for (int i = 0; i < n; i++) {
 
-    if (max_pi != nullptr) {
+    if (max_pi_int >= 0) {
       begin_timestep_();
     }
 
@@ -371,7 +376,7 @@ void Verlet::run(int n)
       timer->stamp(Timer::OUTPUT);
     }
 
-    if (max_pi != nullptr) {
+    if (max_pi_int >= 0) {
       end_timestep_();
     }
   }
