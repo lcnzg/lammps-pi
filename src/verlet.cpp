@@ -37,6 +37,7 @@
 extern "C" {
   void begin_timestep_();
   void end_timestep_();
+  void set_early_stop_(int *);
 }
 
 using namespace LAMMPS_NS;
@@ -245,9 +246,10 @@ void Verlet::run(int n)
   else sortflag = 0;
 
   const char* max_pi = std::getenv("MAX_PARAMOUNT_ITERATIONS");
+  int max_pi_int = atoi(max_pi);
 
   if (max_pi != nullptr) {
-    set_early_stop_(&atoi(max_pi));
+    set_early_stop_(&max_pi_int);
   }
 
   for (int i = 0; i < n; i++) {
